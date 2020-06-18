@@ -20,13 +20,9 @@ export class SocialAuthService {
   private autoLogin = false;
 
   private _user: SocialUser = null;
-  private _authState: ReplaySubject<SocialUser> = new ReplaySubject(1);
+  public authState: ReplaySubject<SocialUser> = new ReplaySubject(1);
 
   private initialized = false;
-
-  get authState(): Observable<SocialUser> {
-    return this._authState.asObservable();
-  }
 
   constructor(@Inject('SocialAuthServiceConfig') config: SocialAuthServiceConfig | Promise<SocialAuthServiceConfig>) {
     if (config instanceof Promise) {
@@ -60,7 +56,7 @@ export class SocialAuthService {
               user.provider = key;
 
               this._user = user;
-              this._authState.next(user);
+              this.authState.next(user);
             })
             .catch(console.debug);
         }
@@ -82,7 +78,7 @@ export class SocialAuthService {
               resolve(user);
 
               this._user = user;
-              this._authState.next(user);
+              this.authState.next(user);
             })
             .catch((err) => {
               reject(err);
@@ -110,7 +106,7 @@ export class SocialAuthService {
               resolve();
 
               this._user = null;
-              this._authState.next(null);
+              this.authState.next(null);
             })
             .catch((err) => {
               reject(err);

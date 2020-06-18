@@ -22,7 +22,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
         'https://apis.google.com/js/platform.js',
         () => {
           gapi.load('auth2', () => {
-            this.auth2 = gapi.auth2.init({
+            this.auth2 = gapi.auth2.getAuthInstance({
               ...this.initOptions,
               client_id: this.clientId,
             });
