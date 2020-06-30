@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { LoginProvider } from './entities/login-provider';
 import { SocialUser } from './entities/social-user';
@@ -8,7 +8,6 @@ export interface SocialAuthServiceConfig {
   providers: { id: string; provider: LoginProvider }[];
 }
 
-/** @dynamic */
 @Injectable()
 export class SocialAuthService {
   private static readonly ERR_LOGIN_PROVIDER_NOT_FOUND =

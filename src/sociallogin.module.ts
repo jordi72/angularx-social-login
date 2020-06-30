@@ -1,20 +1,20 @@
+import { CommonModule } from '@angular/common';
 import {
+  ModuleWithProviders,
   NgModule,
   Optional,
   SkipSelf,
-  ModuleWithProviders
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { SocialAuthService, SocialAuthServiceConfig } from './socialauth.service';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
   ],
   providers: [
-    SocialAuthService
-  ]
+    SocialAuthService,
+  ],
 })
 export class SocialLoginModule {
   public static initialize(config: SocialAuthServiceConfig): ModuleWithProviders {
@@ -24,9 +24,9 @@ export class SocialLoginModule {
         SocialAuthService,
         {
           provide: 'SocialAuthServiceConfig',
-          useValue: config
-        }
-      ]
+          useValue: config,
+        },
+      ],
     };
   }
 

@@ -4,57 +4,32 @@
     "baseUrl": "./",
     "outDir": "./dist/utils",
     "declaration": true,
-    "module": "es2015",
+    /* "module": "es2015", */
+    "module": "CommonJS",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es5",
+    "removeComments": true,
+    "target": "es2015",
     "typeRoots": [
       "node_modules/@types"
     ],
+    "types": ["node"],
     "lib": [
       "es2017",
       "dom"
-    ]
-  },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules", 
-    "**/__tests__/*"
-  ]
-}
-
-
-
-
-/* {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "target": "es2015",
-    "lib": [
-      "es2018",
-      "dom"
     ],
     "paths": {
-      "lib": [
-        "dist/lib/lib",
-        "dist/lib"
+      "@angular/*": [
+        "node_modules/@angular/*"
       ]
     }
   },
-  "angularCompilerOptions": {
-    "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
-  }
-} */
+  "include": [
+    "src/**/*", "helpers.js"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/__tests__/*"
+  ]
+}

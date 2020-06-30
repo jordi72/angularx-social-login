@@ -1,13 +1,19 @@
 const path = require('path');
 const Uglify = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const umd = Object.assign({}, {
     mode: 'none',
     entry: './src/public-api.ts',
     output: {
-        filename: 'bundle.umd.js',
+        /* filename: 'bundle.umd.js', */
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
+        chunkFilename: '[name].bundle.js',
+    },
+    performance: {
+        hints: false
     },
     resolve: {
         extensions: [".ts", ".js"],
@@ -18,10 +24,17 @@ const umd = Object.assign({}, {
     module: {
         rules: [
             {
-                test: /\.ts$/, 
-                loader: "ts-loader"
+                loader: "ts-loader",
+                // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
+                // Removing this will cause deprecation warnings to appear.
+                //test: /[\/\\]@angular[\/\\]core[\/\\].+\.js$/,
+                test: /\.ts$/,
+                /* parser: { system: true  },  // enable SystemJS */
             }
         ]
+    },
+    stats: {
+        warningsFilter: [/critical dependency:/i],
     }
 });
 
@@ -29,9 +42,14 @@ const umdMin = Object.assign({}, {
     mode: 'none',
     entry: './src/public-api.ts',
     output: {
-        filename: 'bundle.umd.min.js',
+        /* filename: 'bundle.umd.min.js', */
+        filename: '[name].bundle.js',
         path: path.resolve(__dirname, 'dist'),
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
+        chunkFilename: '[name].bundle.js',
+    },
+    performance: {
+        hints: false
     },
     resolve: {
         extensions: [".ts", ".js"],
@@ -42,14 +60,30 @@ const umdMin = Object.assign({}, {
     module: {
         rules: [
             {
-                test: /\.ts$/, 
-                loader: "ts-loader"
+                loader: "ts-loader",
+                // Mark files inside `@angular/core` as using SystemJS style dynamic imports.
+                // Removing this will cause deprecation warnings to appear.
+                /* test: /[\/\\]@angular[\/\\]core[\/\\].+\.js$/, */
+                test: /\.ts$/,
+                /* parser: { system: true },  // enable SystemJS */
             }
         ]
     },
     optimization: {
         minimize: true,
-        minimizer: [new Uglify()]
+        /* minimizer: [new Uglify()], */
+        minimizer: [new TerserPlugin({
+            parallel: true,
+            terserOptions: {
+              ecma: 6,
+            },
+          })],
+        splitChunks: {
+            chunks: 'all',
+        },
+    },
+    stats: {
+        warningsFilter: [/critical dependency:/i],
     }
 });
 
